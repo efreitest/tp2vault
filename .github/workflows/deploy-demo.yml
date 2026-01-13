@@ -1,0 +1,16 @@
+name: Deploy Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mock Vault secrets
+        run: |
+          echo "DB_PASS=secret123" >> $GITHUB_ENV
+          echo "DB_USER=appuser" >> $GITHUB_ENV
+      - name: Deploy
+        run: echo "✅ Deployed with user $DB_USER"
