@@ -1,5 +1,3 @@
-
-# .github/workflows/deploy.yml
 name: Deploy with Vault
 
 on:
@@ -10,16 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Import Secrets from Vault
-        uses: hashicorp/vault-action@v2
+      - uses: hashicorp/vault-action@v2
         with:
           url: ${{ secrets.VAULT_ADDR }}
           method: approle
           roleId: ${{ secrets.VAULT_ROLE_ID }}
           secretId: ${{ secrets.VAULT_SECRET_ID }}
-          secrets: |
-            secret/data/app/database password | DB_PASS
-
-      - name: Use secrets
-        run: echo "Password length: ${#DB_PASS}"
+          secrets: secret/data/app/database password | DB_PASS
+      - run: echo "Deployment complete"
